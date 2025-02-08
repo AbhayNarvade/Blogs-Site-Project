@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Register Page{% endblock title %}
+
+{% block style %}
+<style>
+  /* Card styling enhancements */
+  .card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  /* Form elements styling */
+  .form-control {
+    border-radius: 5px;
+  }
+  /* Button styling */
+  .btn-primary {
+    background-color: #5563de;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  .btn-primary:hover {
+    background-color: #3f50b5;
+  }
+  /* Card header customization */
+  .card-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  /* Link styling */
+  .card-footer a {
+    color: #5563de;
+    text-decoration: none;
+  }
+  .card-footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+        {% if error  %}
+            {% for key , value in  error.items %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong> {{key}} !</strong> {{value}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+        {%  endif %}
+
+
+
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center py-3">
+          <h4 class="mb-0">Register</h4>
+        </div>
+        <div class="card-body p-4">
+          <form method="POST" action="{% url 'register' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username"  />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"  />
+            </div>
+            <div class="mb-3">
+              <label for="mobileno" class="form-label">Mobile Number</label>
+              <input type="text" class="form-control" id="mobileno" name="mobileno" placeholder="Enter your mobile number" maxlength="10"  />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address"  />
+            </div>
+            <div class="mb-3">
+              <label for="profile_image" class="form-label">Profile Image</label>
+              <input type="file" class="form-control" id="profile_image" name="profile_image" />
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-center py-3">
+          <small>
+            Already have an account? <a href="{% url 'loginuser' %}">Login</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
