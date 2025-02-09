@@ -1,3 +1,81 @@
 {% extends "base.html" %}
-{% block title %} home {% endblock title %}
-{% block content %}home{% endblock content %}
+{% block title %} Home {% endblock title %}
+{% block style %}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .blog-container {
+        max-width: 900px;
+        margin: auto;
+        padding-top: 20px;
+    }
+    .blog-card {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: white;
+    }
+    .blog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .blog-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .card-body {
+        padding: 25px;
+    }
+    .blog-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+    }
+    .blog-date, .blog-author {
+        font-size: 14px;
+        color: #6c757d;
+    }
+    .blog-content {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
+    }
+    .read-more-btn {
+        background: linear-gradient(to right, #007bff, #0056b3);
+        color: white;
+        padding: 10px 18px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-block;
+        transition: background 0.3s ease-in-out, transform 0.2s;
+    }
+    .read-more-btn:hover {
+        background: linear-gradient(to right, #0056b3, #003d82);
+        transform: scale(1.05);
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container blog-container">
+    {% for i in blogs|dictsortreversed:"created_at" %}  <!-- Show all blogs in reverse order -->
+    <div class="card blog-card mb-4">
+        {% if i.image %}
+        <img src="{{ i.image.url }}" alt="{{ i.title }}">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="blog-title">{{ i.title }}</h5>
+            <p class="blog-date">📅 Published on {{ i.created_at|date:"F d, Y" }}</p>
+            <p class="blog-author">✍️ By <strong>{{ i.author }}</strong></p>
+            <p class="blog-content">{{ i.content|striptags|truncatechars:150 }}</p>
+            <a href="{{i.id}}" class="read-more-btn">Read More →</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

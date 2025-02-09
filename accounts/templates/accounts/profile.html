@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock title %}
+
+{% block style %}
+<style>
+    body {
+        background:linear-gradient(to right, #4e565e, #030814);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .profile-container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 30px;
+    }
+
+    .profile-header {
+        background: linear-gradient(135deg, #003d82, #007bff);
+        height: 120px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .profile-img {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 5px solid white;
+        margin-top: -70px;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .profile-img:hover {
+        transform: scale(1.08);
+    }
+
+    .profile-info h3 {
+        font-weight: 700;
+        color: #222;
+    }
+
+    .profile-details {
+        padding: 12px;
+        font-size: 16px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+
+    .profile-details:last-child {
+        border-bottom: none;
+    }
+
+    .profile-details i {
+        font-size: 18px;
+        margin-right: 10px;
+        color: #007bff;
+    }
+
+    .btn-primary {
+        margin-top: 20px;
+        border-radius: 20px;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-container card">
+        <div class="profile-header"></div>
+        
+        <!-- Profile Image -->
+        <img src="{{ user.profile_image.url }}" alt="Profile Picture" class="profile-img" data-bs-toggle="modal" data-bs-target="#imageModal">
+        
+        <div class="profile-info mt-3">
+            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+        </div>
+
+        <div class="list-group list-group-flush">
+            <div class="list-group-item profile-details"><i class="fas fa-user"></i> <strong>Username:</strong> {{ user.username }}</div>
+            <div class="list-group-item profile-details"><i class="fas fa-envelope"></i> <strong>Email:</strong> {{ user.email }}</div>
+            <div class="list-group-item profile-details"><i class="fas fa-phone"></i> <strong>Mobile:</strong> {{ user.mobileno }}</div>
+            <div class="list-group-item profile-details"><i class="fas fa-calendar"></i> <strong>Member Since:</strong> {{ user.date_joined|date:"F d, Y" }}</div>
+        </div>
+
+        {% comment %} <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-sm">Edit Profile</a> {% endcomment %}
+    </div>
+</div>
+
+<!-- Bootstrap Modal for Enlarged Image -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-transparent border-0">
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 p-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            <img src="{{ user.profile_image.url }}" class="img-fluid rounded">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

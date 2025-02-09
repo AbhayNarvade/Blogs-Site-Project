@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
 from .models import User , OTP
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login , logout
 import random 
 # for otp send
 from django.template.loader import render_to_string
@@ -11,11 +11,13 @@ from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.conf import settings
 import os
+from blogs.models import Blog
 
 
 def home(request):
     if request.user.is_authenticated:  # Corrected spelling
-        return render(request, 'accounts/home.html')
+        blogs = Blog.objects.all()
+        return render(request, 'accounts/home.html' , {'blogs' : blogs})
     else:
         return redirect('loginuser')
     
@@ -180,3 +182,10 @@ def OTP_Verify(request) :
 def logoutuser(request):
     logout(request)
     return redirect('home')
+
+
+def profile(request):
+    if request.user.is_authenticated:  # Corrected spelling
+        return render(request, 'accounts/profile.html', {'user': request.user})
+    else:
+        return redirect('loginuser')
