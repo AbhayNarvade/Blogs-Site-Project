@@ -19,6 +19,11 @@ class User (AbstractUser):
     def __str__(self):
         return f" {self.username}"
     
+    def get_profile_image_url(self):
+        """Return the profile image URL or a default image if not uploaded."""
+        if self.profile_image and hasattr(self.profile_image, 'url'):
+            return self.profile_image.url
+        return "/static/images/default-profile.jpg"  # Replace with your actual default image path
 
 
 

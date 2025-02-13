@@ -73,7 +73,8 @@
             <p class="blog-date">📅 Published on {{ i.created_at|date:"F d, Y" }}</p>
             <p class="blog-author">✍️ By <strong>{{ i.author }}</strong></p>
             <p class="blog-content">{{ i.content|striptags|truncatechars:150 }}</p>
-            <a href="{{i.id}}" class="read-more-btn">Read More →</a>
+            <a href="{% url 'blog' i.id %}" class="read-more-btn">Read More →</a>
+
         </div>
     </div>
     {% endfor %}

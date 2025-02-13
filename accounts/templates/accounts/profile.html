@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+
 {% block title %}Profile{% endblock title %}
 
 {% block style %}
 <style>
     body {
-        background:linear-gradient(to right, #4e565e, #030814);
+        background: linear-gradient(to right, #4e565e, #030814);
         font-family: 'Poppins', sans-serif;
     }
 
@@ -13,9 +14,10 @@
         margin: 50px auto;
         background: white;
         border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         text-align: center;
         padding: 30px;
+        position: relative;
     }
 
     .profile-header {
@@ -42,6 +44,7 @@
     .profile-info h3 {
         font-weight: 700;
         color: #222;
+        margin-top: 15px;
     }
 
     .profile-details {
@@ -66,6 +69,34 @@
     .btn-primary {
         margin-top: 20px;
         border-radius: 20px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .logout-btn {
+        margin-top: 15px;
+        background-color: #dc3545;
+        border-radius: 20px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .logout-btn:hover {
+        background-color: #c82333;
+        transform: scale(1.05);
+    }
+
+    /* Adjust modal styles */
+    .modal-content {
+        background: transparent;
+        border: none;
+    }
+
+    .btn-close {
+        filter: invert(1);
     }
 </style>
 {% endblock style %}
@@ -75,10 +106,13 @@
     <div class="profile-container card">
         <div class="profile-header"></div>
         
-        <!-- Profile Image -->
-        <img src="{{ user.profile_image.url }}" alt="Profile Picture" class="profile-img" data-bs-toggle="modal" data-bs-target="#imageModal">
-        
-        <div class="profile-info mt-3">
+       
+            <img src="{{ user.get_profile_image_url }}" alt="Profile Picture" class="profile-img" data-bs-toggle="modal" data-bs-target="#imageModal">
+
+    
+            
+
+        <div class="profile-info">
             <h3>{{ user.first_name }} {{ user.last_name }}</h3>
         </div>
 
@@ -89,16 +123,17 @@
             <div class="list-group-item profile-details"><i class="fas fa-calendar"></i> <strong>Member Since:</strong> {{ user.date_joined|date:"F d, Y" }}</div>
         </div>
 
-        {% comment %} <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-sm">Edit Profile</a> {% endcomment %}
+        <a href="{% url 'logoutuser' %}" class="btn btn-danger btn-sm logout-btn">Logout</a>
     </div>
 </div>
+
 
 <!-- Bootstrap Modal for Enlarged Image -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-transparent border-0">
-            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 p-3" data-bs-dismiss="modal" aria-label="Close"></button>
-            <img src="{{ user.profile_image.url }}" class="img-fluid rounded">
+        <div class="modal-content">
+            <button type="button" class="btn-close position-absolute top-0 end-0 p-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            <img src="{{ user.get_profile_image_url }}" class="img-fluid rounded">
         </div>
     </div>
 </div>

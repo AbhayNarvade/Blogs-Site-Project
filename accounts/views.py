@@ -15,11 +15,10 @@ from blogs.models import Blog
 
 
 def home(request):
-    if request.user.is_authenticated:  # Corrected spelling
+      # This View Any one can access 
         blogs = Blog.objects.all()
         return render(request, 'accounts/home.html' , {'blogs' : blogs})
-    else:
-        return redirect('loginuser')
+
     
 def loginuser(request):
     if request.method == 'GET':
@@ -183,9 +182,11 @@ def logoutuser(request):
     logout(request)
     return redirect('home')
 
-
 def profile(request):
-    if request.user.is_authenticated:  # Corrected spelling
-        return render(request, 'accounts/profile.html', {'user': request.user})
-    else:
+    if not request.user.is_authenticated:
         return redirect('loginuser')
+
+    return render(request, 'accounts/profile.html', {
+        'user': request.user,
+        'profile_image_url': request.user.get_profile_image_url()  # Use the safe method
+    })

@@ -3,4 +3,5 @@ from .views import *
 urlpatterns = [
     path('create/', create_blog , name='create_blog' ),
     path('yourblog/', yourblog , name='yourblog' ),
+    path('blog/<str:pk>', blog , name='blog' ),
 ]
